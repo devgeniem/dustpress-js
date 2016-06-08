@@ -17,6 +17,8 @@ window.DustPress = ( function( window, document, $ ) {
 
 		dp.success 	= params.success;
 		dp.error 	= params.error;
+		dp.path		= path;
+		dp.params 	= params;
 
 		$.ajax({
 			url: window.location,
@@ -38,16 +40,33 @@ window.DustPress = ( function( window, document, $ ) {
 
 	dp.successHandler = function(data, textStatus, jqXHR) {
 		var parsed = $.parseJSON(data);
-		if(parsed.error === undefined) {
+
+		// Add to debugger data if it exists
+		if ( window.DustPressDebugger ) {
+			delete dp.params.success;
+			delete dp.params.error;
+
+			var debug = {
+				params: dp.params,
+				data: parsed
+			};
+			window.DustPressDebugger.extend(debug, dp.path);
+		}
+
+		if ( parsed.error === undefined ) {
 			dp.success(parsed.success, textStatus, jqXHR);
 		}
 		else {
-			dp.error(parsed, textStatus, jqXHR);
+			if ( "function" === typeof dp.error ) {
+				dp.error(parsed, textStatus, jqXHR);
+			}
 		}
 	};
 
 	dp.errorHandler = function(jqXHR, textStatus, errorThrown) {
-		dp.error({error: errorThrown}, textStatus, jqXHR);
+		if ( "function" === typeof dp.error ) {
+			dp.error({error: errorThrown}, textStatus, jqXHR);
+		}
 	};
 
 	return dp;
