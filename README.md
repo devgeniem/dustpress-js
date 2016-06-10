@@ -3,6 +3,14 @@
 
 A DustPress plugin that provides a handy JavaScript library for using your DustPress Model methods on the front end.
 
+- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala)
+- Plugin url: https://github.com/devgeniem/dustpress-debugger
+- Tags: dustpress, wordpress, plugins, dustjs, dust.js
+- Requires at least: 4.2.0
+- Tested up to: 4.5.2
+- License: GPL-3.0
+- License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
 ## Usage
 
 You can call for SomeModel's method "SomeMethod" with the following call:

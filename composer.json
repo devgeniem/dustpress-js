@@ -1,18 +1,28 @@
 {
   "name": "devgeniem/dustpress-js",
   "type": "wordpress-plugin",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "description": "A DustPress plugin that provides a handy JavaScript library for using your DustPress Model methods on the front end.",
   "authors": [
     {
       "name": "Miika Arponen",
       "email": "miika.arponen@geniem.com",
       "homepage" : "https://github.com/Nomafin"
+    },
+    {
+      "name": "Ville Siltala",
+      "email": "ville.siltala@geniem.com",
+      "homepage": "http://geniem.com/",
+      "role": "Developer"
     }
   ],
   "require": {
   	"devgeniem/dustpress": ">=0.4.0",
     "php": ">=5.4",
     "composer/installers": "v1.0.12"
-  }
+  },
+  "keywords": [
+    "wordpress", "plugin", "dustjs", "dustpress", "debugger", "theme", "framework", "javascript"
+  ],
+  "minimum-stability": "dev"
 }
