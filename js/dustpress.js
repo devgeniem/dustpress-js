@@ -13,7 +13,7 @@ window.DustPress = ( function( window, document, $ ) {
 
 	dp.ajax = function( path, params ) {
 
-		var post = $.extend( params, dp.defaults );
+		var post = $.extend( {}, dp.defaults, params );
 
 		dp.success 	= params.success;
 		dp.error 	= params.error;
