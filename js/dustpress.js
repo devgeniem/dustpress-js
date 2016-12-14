@@ -17,11 +17,16 @@ window.DustPress = ( function( window, document, $ ) {
 
 		dp.success 	= params.success;
 		dp.error 	= params.error;
+		dp.get 		= params.get ? params.get : '';
 		dp.path		= path;
 		dp.params 	= params;
 
+		if ( dp.get.length && ! dp.get.startsWith('?') ) {
+			dp.get = '?' + dp.get;
+		}
+
 		$.ajax({
-			url: window.location,
+			url: window.location + dp.get,
 			method: post.type,
 			data: {
 				dustpress_data: {
@@ -48,7 +53,7 @@ window.DustPress = ( function( window, document, $ ) {
 
 			var debug = {
 				params: dp.params,
-				data: parsed
+				data: parsed.debug ? parsed.debug : parsed
 			};
 			window.DustPressDebugger.extend(debug, dp.path);
 		}

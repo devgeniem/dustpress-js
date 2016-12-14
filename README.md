@@ -3,6 +3,14 @@
 
 A DustPress plugin that provides a handy JavaScript library for using your DustPress Model methods on the front end.
 
+- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala)
+- Plugin url: https://github.com/devgeniem/dustpress-debugger
+- Tags: dustpress, wordpress, plugins, dustjs, dust.js
+- Requires at least: 4.2.0
+- Tested up to: 4.5.2
+- License: GPL-3.0
+- License URI: http://www.gnu.org/licenses/gpl-3.0.html
+
 ## Usage
 
 You can call for SomeModel's method "SomeMethod" with the following call:
@@ -44,6 +52,18 @@ You can also omit the method completely if you want to get the data of a complet
 dp("SomeModel", {
 	success: function( data ) {
 		// do what you want with the data
+	},
+	error: function( error ) {
+		// possible error
+	}
+});
+```
+
+If you want to call several functions but not all at once, you can do so by replacing the method's name on the call with a comma-separated list.
+```
+dp("SomeModel/SomeMethod,AnotherMethod", {
+	success: function( data ) {
+		// data.SomeMethod and data.AnotherMethod contain the return values
 	},
 	error: function( error ) {
 		// possible error
