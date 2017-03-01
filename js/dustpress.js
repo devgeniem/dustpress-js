@@ -33,8 +33,17 @@ window.DustPress = ( function( window, document, $ ) {
 			dp.get = '?' + dp.get;
 		}
 
+		var token = '';
+
 		// Create token for CSRF protection
-		var token = Math.random() + '' + Math.random();
+		if ( typeof window.crypto.getRandomValues === 'function' ) { 
+		    for ( var i = 0; i < 4; i++ ) {
+		    	token += window.crypto.getRandomValues( new Uint32Array(1) );
+		    }
+		}
+		else {
+			token = Math.random() + '' + Math.random();
+		}
 
 		var date = new Date();
         date.setTime(date.getTime() + (24*60*60*1000));
@@ -63,7 +72,7 @@ window.DustPress = ( function( window, document, $ ) {
 
 				xhr.upload.addEventListener( 'progress', dp.uploadProgressHandler, false );
 				xhr.addEventListener( 'progress', dp.downloadProgressHandler, false );
-			}
+			};
 		}
 
 		dp.start();
