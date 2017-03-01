@@ -3,48 +3,83 @@ window.DustPress = ( function( window, document, $ ) {
 	var dp = {};
 
 	dp.defaults = {
-		"type"	  : "post",
-		"tidy"    :	false,
-		"render"  : false,
-		"partial" : "",
-		"success" : function() {},
-		"error"   : function() {}
+		"type"	  		   : "post",
+		"tidy"    		   :	false,
+		"render"  		   : false,
+		"partial" 		   : "",
+		"upload"  		   : false,
+		"success" 		   : function() {},
+		"error"   		   : function() {},
+		"uploadProgress"   : function() {},
+		"downloadProgress" : function() {}
 	};
+
+	dp.start = function() {};
+	dp.complete = function() {};
 
 	dp.ajax = function( path, params ) {
 
 		var post = $.extend( {}, dp.defaults, params );
 
-		dp.success 	= params.success;
-		dp.error 	= params.error;
-		dp.get 		= params.get ? params.get : '';
-		dp.path		= path;
-		dp.params 	= params;
+		dp.success 	        = post.success;
+		dp.error 	        = post.error;
+		dp.uploadProgress   = post.uploadProgress;
+		dp.downloadProgress = post.downloadProgress;
+		dp.get 		        = post.get ? params.get : '';
+		dp.path		        = path;
+		dp.params 	        = params;
 
 		if ( dp.get.length && ! dp.get.startsWith('?') ) {
 			dp.get = '?' + dp.get;
 		}
 
-		$.ajax({
+		// Create token for CSRF protection
+		var token = Math.random() + '' + Math.random();
+
+		var date = new Date();
+        date.setTime(date.getTime() + (24*60*60*1000));
+	    
+	    // Set the cookie for the token
+	    document.cookie = 'dpjs_token=' + token + '; expires=' + date.toGMTString() + '; path=/';
+
+		var options = {
 			url: window.location + dp.get,
 			method: post.type,
 			data: {
 				dustpress_data: {
-					path: 	 path,
-					args: 	 post.args,
-					render:  post.render,
-					tidy: 	 post.tidy,
-					partial: post.partial
+					path    : path,
+					args    : post.args,
+					render  : post.render,
+					tidy    : post.tidy,
+					partial : post.partial,
+					token   : token
 				}
 			}
-		})
-		.done(dp.successHandler)
-		.fail(dp.errorHandler);
+		};
+
+		if ( post.upload ) {
+			options.xhr = function() {
+				var xhr = new window.XMLHttpRequest();
+
+				xhr.upload.addEventListener( 'progress', dp.uploadProgressHandler, false );
+				xhr.addEventListener( 'progress', dp.downloadProgressHandler, false );
+			}
+		}
+
+		dp.start();
+
+		$.ajax( options )
+		.done( dp.successHandler )
+		.fail( dp.errorHandler )
+		.complete( dp.complete );
 
 	};
 
 	dp.successHandler = function(data, textStatus, jqXHR) {
 		var parsed = $.parseJSON(data);
+
+		// Expire CSRF cookie
+		document.cookie = 'dpjs_token=; expires=-1; path=/';
 
 		// Add to debugger data if it exists
 		if ( window.DustPressDebugger ) {
@@ -62,15 +97,30 @@ window.DustPress = ( function( window, document, $ ) {
 			dp.success(parsed.success, textStatus, jqXHR);
 		}
 		else {
-			if ( "function" === typeof dp.error ) {
-				dp.error(parsed, textStatus, jqXHR);
-			}
+			dp.error(parsed, textStatus, jqXHR);
 		}
 	};
 
 	dp.errorHandler = function(jqXHR, textStatus, errorThrown) {
-		if ( "function" === typeof dp.error ) {
-			dp.error({error: errorThrown}, textStatus, jqXHR);
+		// Expire CSRF cookie
+		document.cookie = 'dpjs_token=; expires=-1; path=/';
+
+		dp.error({error: errorThrown}, textStatus, jqXHR);
+	};
+
+	dp.uploadProgressHandler = function( event ) {
+		if ( event.lengthComputable ) {
+			var complete = ( event.loaded / event.total );
+
+			dp.uploadProgress( complete );	
+		}
+	};
+
+	dp.downloadProgressHandler = function( event ) {
+		if ( event.lengthComputable ) {
+			var complete = ( event.loaded / event.total );
+
+			dp.downloadProgress( complete );
 		}
 	};
 
