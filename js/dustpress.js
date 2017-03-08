@@ -36,7 +36,7 @@ window.DustPress = ( function( window, document, $ ) {
 		var token = '';
 
 		// Create token for CSRF protection
-		if ( typeof window.crypto.getRandomValues === 'function' ) { 
+		if ( typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues === 'function' ) { 
 		    for ( var i = 0; i < 4; i++ ) {
 		    	token += window.crypto.getRandomValues( new Uint32Array(1) );
 		    }
