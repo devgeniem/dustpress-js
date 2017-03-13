@@ -85,8 +85,12 @@ window.DustPress = ( function( window, document, $ ) {
 	};
 
 	dp.successHandler = function(data, textStatus, jqXHR) {
-		var parsed = $.parseJSON(data);
-
+		if ( typeof data == 'string' ) {
+			var parsed = $.parseJSON(data);
+		}
+		else {
+			var parsed = data;
+		}
 		// Expire CSRF cookie
 		document.cookie = 'dpjs_token=; expires=-1; path=/';
 
