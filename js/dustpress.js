@@ -77,7 +77,7 @@ window.DustPress = ( function( window, document, $ ) {
 
 		dp.start();
 
-		$.ajax( options )
+		return $.ajax( options )
 		.done( dp.successHandler )
 		.fail( dp.errorHandler )
 		.complete( dp.complete );
