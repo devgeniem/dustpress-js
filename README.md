@@ -7,6 +7,7 @@ A DustPress plugin that provides a handy JavaScript library for using your DustP
 - Plugin url: https://github.com/devgeniem/dustpress-debugger
 - Tags: dustpress, wordpress, plugins, dustjs, dust.js
 - Requires at least: 4.2.0
+- Requires DustPress version: 1.6.10
 - Tested up to: 4.7.2
 - License: GPL-3.0
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
