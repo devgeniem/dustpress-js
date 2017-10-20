@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Changed to using application/json so parameters keep their type. NOTE: this will break earlier functionality as dustpress model `get_args()` function returned an array but it will now return an object instead
+
 ## [1.1.3] 2017-10-04
 
 ### Added

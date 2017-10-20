@@ -11,7 +11,8 @@ window.DustPress = ( function( window, document, $ ) {
 		"success" 		   : function() {},
 		"error"   		   : function() {},
 		"uploadProgress"   : function() {},
-		"downloadProgress" : function() {}
+		"downloadProgress" : function() {},
+		"contentType"      : "application/json",
 	};
 
 	dp.start = function() {};
@@ -54,6 +55,7 @@ window.DustPress = ( function( window, document, $ ) {
 		var options = {
 			url: window.location + dp.get,
 			method: post.type,
+			contentType: post.contentType,
 			data: {
 				dustpress_data: {
 					path    : path,
@@ -65,6 +67,9 @@ window.DustPress = ( function( window, document, $ ) {
 				}
 			}
 		};
+
+		// Stringify data so it can be sent
+		options.data = JSON.stringify(options.data);
 
 		if ( post.upload ) {
 			options.xhr = function() {
