@@ -34,7 +34,8 @@ class DustPressJs {
     */
     public function enqueue_scripts() {
         wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', array('jquery'), '1.1.1', false );
+        $version = get_plugin_data( __FILE__ )['Version'];
+        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', array('jquery'), $version, false );
     }
 }
 
