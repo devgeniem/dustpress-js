@@ -6,10 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.2] 2017-11-15
+
+### Changed
+- Fixed a bug that caused crashing in certain circumstances in the front-end
+- Enhanced the documentation with better examples and fixed some typos
+
 ## [2.0.1] 2017-11-10
 
 ### Changed
-- Made the enqueue call use the plugin version for the script version
+- Changed the enqueue call to use the plugin version for the script version
 
 ## [2.0.0] 2017-10-20
 
