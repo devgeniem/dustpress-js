@@ -7,18 +7,21 @@ A DustPress plugin that provides a handy JavaScript library for using your DustP
 - Plugin url: https://github.com/devgeniem/dustpress-debugger
 - Tags: dustpress, wordpress, plugins, dustjs, dust.js
 - Requires at least: 4.2.0
-- Requires DustPress version: 1.6.10
-- Tested up to: 4.7.2
+- Requires DustPress version: 1.7.0
+- Tested up to: 4.9.0
 - License: GPL-3.0
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Usage
 
-You can call for SomeModel's method "SomeMethod" with the following call:
+You can call for `SomeModel`'s method `SomeMethod` with following code:
 
 ```
 dp("SomeModel/SomeMethod", {
 	tidy: true,
+	args: {
+		'foo': 'bar'
+	}
 	success: function( data ) {
 		// do what you want with the data
 	},
@@ -30,11 +33,13 @@ dp("SomeModel/SomeMethod", {
 
 `tidy: true` parameter cleans up the data tree a bit for more usability. Feel free to try the queries with and without it to see the difference.
 
+`args` parameter passes arguments to the PHP side. They can be accessed there with `$this->get_args();`.
+
 If you want, you can even render HTML with Dust templates.
 
 ```
-dp("SomeModel/SomeMethod", {
-	partial: "SomePartial",
+dp( 'SomeModel/SomeMethod', {
+	partial: 'SomePartial',
 	success: function( data ) {
 		// do what you want with the data
 	},
@@ -43,12 +48,12 @@ dp("SomeModel/SomeMethod", {
 	}
 });
 ```
-This code takes the data of SomeMethod and renders it with SomePartial. Variable `data` then contains the ready html.
+This code takes the data of `SomeMethod` and renders it with `SomePartial`. Variable `data` then contains the ready html.
 
 You can also omit the method completely if you want to get the data of a complete model.
 
 ```
-dp("SomeModel", {
+dp( 'SomeModel', {
 	success: function( data ) {
 		// do what you want with the data
 	},
@@ -60,7 +65,7 @@ dp("SomeModel", {
 
 If you want to call several functions but not all at once, you can do so by replacing the method's name on the call with a comma-separated list.
 ```
-dp("SomeModel/SomeMethod,AnotherMethod", {
+dp( 'SomeModel/SomeMethod,AnotherMethod', {
 	success: function( data ) {
 		// data.SomeMethod and data.AnotherMethod contain the return values
 	},
@@ -88,7 +93,7 @@ class SomeModel extends DustPressModel {
 }
 ```
 
-If you need to block visibility of public funcions, you can do this by examining the `DOING_AJAX` constant or calling the core function `is_dustpress_ajax`.
+If you need to block visibility of public funcions, you can do this by examining the `DOING_AJAX` constant or calling the DustPress core function `is_dustpress_ajax`.
 
 ```
 class SomeModel extends DustPressModel {
@@ -112,3 +117,5 @@ Recommended installation to WP project is through composer:
 ```
 $ composer require devgeniem/dustpress-js
 ```
+
+Obviously you can also download the ZIP file from GitHub and extract it into your plugins directory.
