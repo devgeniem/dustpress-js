@@ -3,7 +3,7 @@
  * Plugin Name: DustPress.JS
  * Plugin URI: https://github.com/devgeniem/dustpress-js
  * Description: DustPress JavaScript library. Provides a front-end interface for interacting with the backend functions.
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author: Geniem Oy / Miika Arponen & Ville Siltala
  * Author URI: http://www.geniem.com
  */
@@ -19,7 +19,7 @@ class DustPressJs {
      * @return  void
      */
     public function __construct() {
-        add_action( 'init', array( $this, 'enqueue_scripts' ) );
+        add_action( 'init', [ $this, 'enqueue_scripts' ] );
     }
 
     /**
@@ -37,7 +37,7 @@ class DustPressJs {
         $plugin_data = get_file_data( __FILE__, [ 'Version' => 'Version' ], 'plugin' );
 
         $version = $plugin_data['Version'];
-        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', array('jquery'), $version, false );
+        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', [ 'jquery' ], $version, false );
     }
 }
 

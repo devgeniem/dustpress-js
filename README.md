@@ -50,6 +50,8 @@ dp( 'SomeModel/SomeMethod', {
 ```
 This code takes the data of `SomeMethod` and renders it with `SomePartial`. Variable `data` then contains the ready html.
 
+If you still want to get the data output as well, use argument `data: true` and you will get the resulting data as the second parameter of your success function.
+
 You can also omit the method completely if you want to get the data of a complete model.
 
 ```

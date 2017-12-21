@@ -4,10 +4,11 @@ window.DustPress = ( function( window, document, $ ) {
 
 	dp.defaults = {
 		"type"	  		   : "post",
-		"tidy"    		   :	false,
+		"tidy"    		   : false,
 		"render"  		   : false,
 		"partial" 		   : "",
 		"upload"  		   : false,
+		"data"             : false,
 		"success" 		   : function() {},
 		"error"   		   : function() {},
 		"uploadProgress"   : function() {},
@@ -28,6 +29,7 @@ window.DustPress = ( function( window, document, $ ) {
 		dp.downloadProgress = post.downloadProgress;
 		dp.get 		        = post.get ? params.get : '';
 		dp.path		        = path;
+		dp.data             = post.data;
 		dp.params 	        = params;
 
 		if ( dp.get.length && ! dp.get.startsWith('?') ) {
@@ -63,6 +65,7 @@ window.DustPress = ( function( window, document, $ ) {
 					render  : post.render,
 					tidy    : post.tidy,
 					partial : post.partial,
+					data    : post.data,
 					token   : token
 				}
 			}
@@ -90,12 +93,13 @@ window.DustPress = ( function( window, document, $ ) {
 	};
 
 	dp.successHandler = function(data, textStatus, jqXHR) {
-		if ( typeof data == 'string' ) {
+		if ( typeof data === 'string' ) {
 			var parsed = $.parseJSON(data);
 		}
 		else {
 			var parsed = data;
 		}
+		
 		// Expire CSRF cookie
 		document.cookie = 'dpjs_token=; expires=-1; path=/';
 
@@ -112,7 +116,7 @@ window.DustPress = ( function( window, document, $ ) {
 		}
 
 		if ( parsed.error === undefined ) {
-			dp.success(parsed.success, textStatus, jqXHR);
+			dp.success(parsed.success, parsed.data, textStatus, jqXHR);
 		}
 		else {
 			dp.error(parsed, textStatus, jqXHR);
