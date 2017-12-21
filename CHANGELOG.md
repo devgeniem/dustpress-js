@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [2.0.3] 2017-12-21
+## [2.1.0] 2017-12-21
 
 ### Added
 - Added a feature for getting both the data and the rendered output when using a Dust partial
