@@ -36,8 +36,11 @@ class DustPressJs {
 
         $plugin_data = get_file_data( __FILE__, [ 'Version' => 'Version' ], 'plugin' );
 
-        $version = $plugin_data['Version'];
-        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', [ 'jquery' ], $version, false );
+        $version = $plugin_data[ 'Version' ];
+
+        $dependencies = add_filter( 'dustpress/js/depencies', [ 'jquery' ] );
+        
+        wp_enqueue_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, false );
     }
 }
 

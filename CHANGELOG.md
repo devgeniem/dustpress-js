@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Added a feature for getting both the data and the rendered output when using a Dust partial
+- Added possibility to change the dependency setting of the DustPress.js library if, for example, jQuery is provided outside the WordPress enqueue system
 
 ## [2.0.2] 2017-11-15
 
