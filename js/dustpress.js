@@ -1,12 +1,12 @@
 window.DustPress = ( function( window, document, $ ) {
 
 	var dp = {};
-
+	
 	dp.defaults = {
 		"type"	  		   : "post",
 		"tidy"    		   : false,
 		"render"  		   : false,
-		"partial" 		   : "",
+		"partial" 		   : null,
 		"upload"  		   : false,
 		"data"             : false,
 		"success" 		   : function() {},
@@ -16,46 +16,53 @@ window.DustPress = ( function( window, document, $ ) {
 		"contentType"      : "application/json",
 	};
 
-	dp.start = function() {};
+	dp.start    = function() {};
 	dp.complete = function() {};
+
+	// Create token for CSRF protection
+	if ( typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues === 'function' ) { 
+		dp.token = '';
+
+		for ( var i = 0; i < 4; i++ ) {
+			dp.token += window.crypto.getRandomValues( new Uint32Array(1) );
+		}
+	}
+	else {
+		dp.token = Math.random() + '' + Math.random();
+	}
 
 	dp.ajax = function( path, params ) {
 
 		var post = $.extend( {}, dp.defaults, params );
 
-		dp.success 	        = post.success;
-		dp.error 	        = post.error;
-		dp.uploadProgress   = post.uploadProgress;
-		dp.downloadProgress = post.downloadProgress;
-		dp.get 		        = post.get ? params.get : '';
-		dp.path		        = path;
-		dp.data             = post.data;
-		dp.params 	        = params;
+		// Create a new instance of the default object so that simultaneous	calls wouldn't clash.
+		var instance = {};
 
-		if ( dp.get.length && ! dp.get.startsWith('?') ) {
-			dp.get = '?' + dp.get;
+		instance.success 	        = post.success;
+		instance.error 	            = post.error;
+		instance.uploadProgress     = post.uploadProgress;
+		instance.downloadProgress   = post.downloadProgress;
+		instance.get 		        = post.get ? params.get : '';
+		instance.path		        = path;
+		instance.data               = post.data;
+		instance.params 	        = params;
+		instance.start              = dp.start;
+		instance.complete           = dp.complete;
+
+		if ( instance.get.length && ! instance.get.startsWith('?') ) {
+			instance.get = '?' + instance.get;
 		}
 
-		var token = '';
-
-		// Create token for CSRF protection
-		if ( typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues === 'function' ) { 
-		    for ( var i = 0; i < 4; i++ ) {
-		    	token += window.crypto.getRandomValues( new Uint32Array(1) );
-		    }
-		}
-		else {
-			token = Math.random() + '' + Math.random();
-		}
+		
 
 		var date = new Date();
         date.setTime(date.getTime() + (24*60*60*1000));
 	    
 	    // Set the cookie for the token
-	    document.cookie = 'dpjs_token=' + token + '; expires=' + date.toGMTString() + '; path=/';
+	    document.cookie = 'dpjs_token=' + dp.token + '; expires=' + date.toGMTString() + '; path=/';
 
 		var options = {
-			url: window.location + dp.get,
+			url: window.location + instance.get,
 			method: post.type,
 			contentType: post.contentType,
 			data: {
@@ -66,7 +73,7 @@ window.DustPress = ( function( window, document, $ ) {
 					tidy    : post.tidy,
 					partial : post.partial,
 					data    : post.data,
-					token   : token
+					token   : dp.token
 				}
 			}
 		};
@@ -78,72 +85,73 @@ window.DustPress = ( function( window, document, $ ) {
 			options.xhr = function() {
 				var xhr = new window.XMLHttpRequest();
 
-				xhr.upload.addEventListener( 'progress', dp.uploadProgressHandler, false );
-				xhr.addEventListener( 'progress', dp.downloadProgressHandler, false );
+				xhr.upload.addEventListener( 'progress', instance.uploadProgressHandler, false );
+				xhr.addEventListener( 'progress', instance.downloadProgressHandler, false );
 			};
 		}
 
-		dp.start();
+		instance.start();
+
+		instance.successHandler = function(data, textStatus, jqXHR) {
+			var parsed;
+
+			if ( typeof data === 'string' ) {
+				parsed = $.parseJSON(data);
+			}
+			else {
+				parsed = data;
+			}
+			
+			// Expire CSRF cookie
+			document.cookie = 'dpjs_token=; expires=-1; path=/';
+	
+			// Add to debugger data if it exists
+			if ( window.DustPressDebugger ) {
+				delete instance.params.success;
+				delete instance.params.error;
+	
+				var debug = {
+					params: instance.params,
+					data: parsed.debug ? parsed.debug : parsed
+				};
+				window.DustPressDebugger.extend(debug, instance.path);
+			}
+	
+			if ( parsed.error === undefined ) {
+				instance.success(parsed.success, parsed.data, textStatus, jqXHR);
+			}
+			else {
+				instance.error(parsed, textStatus, jqXHR);
+			}
+		};
+	
+		instance.errorHandler = function(jqXHR, textStatus, errorThrown) {
+			// Expire CSRF cookie
+			document.cookie = 'dpjs_token=; expires=-1; path=/';
+	
+			instance.error({error: errorThrown}, textStatus, jqXHR);
+		};
+	
+		instance.uploadProgressHandler = function( event ) {
+			if ( event.lengthComputable ) {
+				var complete = ( event.loaded / event.total );
+	
+				instance.uploadProgress( complete );	
+			}
+		};
+	
+		instance.downloadProgressHandler = function( event ) {
+			if ( event.lengthComputable ) {
+				var complete = ( event.loaded / event.total );
+	
+				instance.downloadProgress( complete );
+			}
+		};
 
 		return $.ajax( options )
-		.done( dp.successHandler )
-		.fail( dp.errorHandler )
-		.complete( dp.complete );
-
-	};
-
-	dp.successHandler = function(data, textStatus, jqXHR) {
-		if ( typeof data === 'string' ) {
-			var parsed = $.parseJSON(data);
-		}
-		else {
-			var parsed = data;
-		}
-		
-		// Expire CSRF cookie
-		document.cookie = 'dpjs_token=; expires=-1; path=/';
-
-		// Add to debugger data if it exists
-		if ( window.DustPressDebugger ) {
-			delete dp.params.success;
-			delete dp.params.error;
-
-			var debug = {
-				params: dp.params,
-				data: parsed.debug ? parsed.debug : parsed
-			};
-			window.DustPressDebugger.extend(debug, dp.path);
-		}
-
-		if ( parsed.error === undefined ) {
-			dp.success(parsed.success, parsed.data, textStatus, jqXHR);
-		}
-		else {
-			dp.error(parsed, textStatus, jqXHR);
-		}
-	};
-
-	dp.errorHandler = function(jqXHR, textStatus, errorThrown) {
-		// Expire CSRF cookie
-		document.cookie = 'dpjs_token=; expires=-1; path=/';
-
-		dp.error({error: errorThrown}, textStatus, jqXHR);
-	};
-
-	dp.uploadProgressHandler = function( event ) {
-		if ( event.lengthComputable ) {
-			var complete = ( event.loaded / event.total );
-
-			dp.uploadProgress( complete );	
-		}
-	};
-
-	dp.downloadProgressHandler = function( event ) {
-		if ( event.lengthComputable ) {
-			var complete = ( event.loaded / event.total );
-
-			dp.downloadProgress( complete );
-		}
+		.done( instance.successHandler )
+		.fail( instance.errorHandler )
+		.complete( instance.complete );
 	};
 
 	return dp;
