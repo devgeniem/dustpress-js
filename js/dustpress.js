@@ -9,11 +9,12 @@ window.DustPress = ( function( window, document, $ ) {
 		"partial" 		   : null,
 		"upload"  		   : false,
 		"data"             : false,
+		"url"              : null,
 		"success" 		   : function() {},
 		"error"   		   : function() {},
 		"uploadProgress"   : function() {},
 		"downloadProgress" : function() {},
-		"contentType"      : "application/json",
+		"contentType"      : "application/json"
 	};
 
 	dp.start    = function() {};
@@ -38,13 +39,16 @@ window.DustPress = ( function( window, document, $ ) {
 		// Create a new instance of the default object so that simultaneous	calls wouldn't clash.
 		var instance = {};
 
+		instance.type               = post.type;
 		instance.success 	        = post.success;
 		instance.error 	            = post.error;
+		instance.url                = post.url;
 		instance.uploadProgress     = post.uploadProgress;
 		instance.downloadProgress   = post.downloadProgress;
 		instance.get 		        = post.get ? params.get : '';
 		instance.path		        = path;
 		instance.data               = post.data;
+		instance.contentType        = post.contentType;
 		instance.params 	        = params;
 		instance.start              = dp.start;
 		instance.complete           = dp.complete;
@@ -56,30 +60,30 @@ window.DustPress = ( function( window, document, $ ) {
 		
 
 		var date = new Date();
-        date.setTime(date.getTime() + (24*60*60*1000));
+        date.setTime( date.getTime() + ( 24*60*60*1000 ) );
 	    
 	    // Set the cookie for the token
 	    document.cookie = 'dpjs_token=' + dp.token + '; expires=' + date.toGMTString() + '; path=/';
 
 		var options = {
-			url: window.location + instance.get,
-			method: post.type,
-			contentType: post.contentType,
+			url: ( instance.url || dustpressjs_endpoint || ( window.location + instance.get ) ),
+			method: instance.type,
+			contentType: instance.contentType,
 			data: {
 				dustpress_data: {
 					path    : path,
-					args    : post.args,
-					render  : post.render,
-					tidy    : post.tidy,
-					partial : post.partial,
-					data    : post.data,
+					args    : instance.args,
+					render  : instance.render,
+					tidy    : instance.tidy,
+					partial : instance.partial,
+					data    : instance.data,
 					token   : dp.token
 				}
 			}
 		};
 
 		// Stringify data so it can be sent
-		options.data = JSON.stringify(options.data);
+		options.data = JSON.stringify( options.data );
 
 		if ( post.upload ) {
 			options.xhr = function() {
@@ -92,11 +96,11 @@ window.DustPress = ( function( window, document, $ ) {
 
 		instance.start();
 
-		instance.successHandler = function(data, textStatus, jqXHR) {
+		instance.successHandler = function( data, textStatus, jqXHR ) {
 			var parsed;
 
 			if ( typeof data === 'string' ) {
-				parsed = $.parseJSON(data);
+				parsed = $.parseJSON( data );
 			}
 			else {
 				parsed = data;
@@ -125,7 +129,7 @@ window.DustPress = ( function( window, document, $ ) {
 			}
 		};
 	
-		instance.errorHandler = function(jqXHR, textStatus, errorThrown) {
+		instance.errorHandler = function( jqXHR, textStatus, errorThrown ) {
 			// Expire CSRF cookie
 			document.cookie = 'dpjs_token=; expires=-1; path=/';
 	

@@ -8,7 +8,7 @@ A DustPress plugin that provides a handy JavaScript library for using your DustP
 - Tags: dustpress, wordpress, plugins, dustjs, dust.js
 - Requires at least: 4.2.0
 - Requires DustPress version: 1.7.0
-- Tested up to: 4.9.0
+- Tested up to: 4.9.3
 - License: GPL-3.0
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -81,11 +81,11 @@ Now data will consist of an object with the methods' names as keys and their ret
 
 ### Model function front-end visibility
 
-All *public* functions in your DustPress models are accessible via AJAX by default. You can also call *protected* methods from the models by defining a *protected* array property with the name `$api` to your model with a list of method names that should be allowed to be run via AJAX.
+You need to make your methods accessible for DustPress.js by defining a property named `$api` in your model. It should be an array consisting of the names of your accessible methods. DustPress.js can also run `protected` methods which are not automatically run by DustPress normally.
 
 ```
 class SomeModel extends DustPressModel {
-    protected $api = [
+    public $api = [
         'SomeMethod'
     ];
 
@@ -95,16 +95,16 @@ class SomeModel extends DustPressModel {
 }
 ```
 
-If you need to block visibility of public funcions, you can do this by examining the `DOING_AJAX` constant or calling the DustPress core function `is_dustpress_ajax`.
+If you need to determine whether a call has been made from ajax or not, you can use `dustpress()->is_dustpress_ajax()` function like shown below:
 
 ```
 class SomeModel extends DustPressModel {
-    protected $api = [
+    public $api = [
         'PublicMethod'
     ];
 
     public function PublicMethod() {
-        if ( DustPress()->is_dustpress_ajax() ) {
+        if ( dustpress()->is_dustpress_ajax() ) {
             // Do not run if this an ajax request.
             return;
         }
@@ -115,7 +115,7 @@ class SomeModel extends DustPressModel {
 
 ## Install
 
-Recommended installation to WP project is through composer:
+Recommended installation to a WordPress project is through composer:
 ```
 $ composer require devgeniem/dustpress-js
 ```
