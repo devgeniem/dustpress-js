@@ -10,6 +10,7 @@ window.DustPress = ( function( window, document, $ ) {
 		"upload"  		   : false,
 		"data"             : false,
 		"url"              : null,
+		"bypassMainQuery"  : false,
 		"success" 		   : function() {},
 		"error"   		   : function() {},
 		"uploadProgress"   : function() {},
@@ -49,6 +50,7 @@ window.DustPress = ( function( window, document, $ ) {
 		instance.path		        = path;
 		instance.data               = post.data;
 		instance.contentType        = post.contentType;
+		instance.bypassMainQuery    = post.bypassMainQuery;
 		instance.params 	        = params;
 		instance.start              = dp.start;
 		instance.complete           = dp.complete;
@@ -71,13 +73,14 @@ window.DustPress = ( function( window, document, $ ) {
 			contentType: instance.contentType,
 			data: {
 				dustpress_data: {
-					path    : path,
-					args    : instance.args,
-					render  : instance.render,
-					tidy    : instance.tidy,
-					partial : instance.partial,
-					data    : instance.data,
-					token   : dp.token
+					path            : path,
+					args            : instance.args,
+					render          : instance.render,
+					tidy            : instance.tidy,
+					partial         : instance.partial,
+					data            : instance.data,
+					token           : dp.token,
+					bypassMainQuery : instance.bypassMainQuery
 				}
 			}
 		};
