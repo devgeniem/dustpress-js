@@ -10,7 +10,7 @@ window.DustPress = ( function( window, document, $ ) {
 		"upload"  		   : false,
 		"data"             : false,
 		"url"              : null,
-		"bypassMainQuery"  : false,
+		"bypassMainQuery"  : true,
 		"success" 		   : function() {},
 		"error"   		   : function() {},
 		"uploadProgress"   : function() {},

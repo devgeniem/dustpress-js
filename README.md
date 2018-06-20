@@ -79,6 +79,14 @@ dp( 'SomeModel/SomeMethod,AnotherMethod', {
 
 Now data will consist of an object with the methods' names as keys and their return values as the values. Obviously you can also render that to HTML as well.
 
+### Additional parameters
+
+#### bypassMainQuery
+
+By default DustPress.js requests bypass WordPress' main WP_Query so that it wouldn't slow the request down when it's not necessary. You can prevent that from happening by setting `bypassMainQuery: false` if you want to use the default query.
+
+*Note:* Since version _2.2.0_ DustPress.js calls have been made to the home url instead of current page and thus the default query will reflect that as well. You can point the query to the right page by giving `url: window.location` parameter to your request.
+
 ### Model function front-end visibility
 
 You need to make your methods accessible for DustPress.js by defining a property named `$api` in your model. It should be an array consisting of the names of your accessible methods. DustPress.js can also run `protected` methods which are not automatically run by DustPress normally.
