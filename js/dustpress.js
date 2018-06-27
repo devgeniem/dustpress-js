@@ -49,6 +49,7 @@ window.DustPress = ( function( window, document, $ ) {
 		instance.downloadProgress   = post.downloadProgress;
 		instance.get 		        = post.get ? params.get : '';
 		instance.path		        = path;
+		instance.args               = post.args;
 		instance.data               = post.data;
 		instance.partial            = post.partial;
 		instance.render             = post.render;
