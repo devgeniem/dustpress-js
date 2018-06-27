@@ -52,6 +52,7 @@ window.DustPress = ( function( window, document, $ ) {
 		instance.data               = post.data;
 		instance.partial            = post.partial;
 		instance.tidy               = post.tidy;
+		instance.args               = post.args;
 		instance.render             = post.render;
 		instance.upload             = post.upload;
 		instance.contentType        = post.contentType;
