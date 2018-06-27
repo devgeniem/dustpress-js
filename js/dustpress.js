@@ -40,6 +40,7 @@ window.DustPress = ( function( window, document, $ ) {
 		// Create a new instance of the default object so that simultaneous	calls wouldn't clash.
 		var instance = {};
 
+		// Assign the variables
 		instance.type               = post.type;
 		instance.success 	        = post.success;
 		instance.error 	            = post.error;
@@ -49,6 +50,10 @@ window.DustPress = ( function( window, document, $ ) {
 		instance.get 		        = post.get ? params.get : '';
 		instance.path		        = path;
 		instance.data               = post.data;
+		instance.partial            = post.partial;
+		instance.tidy               = post.tidy;
+		instance.render             = post.render;
+		instance.upload             = post.upload;
 		instance.contentType        = post.contentType;
 		instance.bypassMainQuery    = post.bypassMainQuery;
 		instance.params 	        = params;
@@ -88,7 +93,7 @@ window.DustPress = ( function( window, document, $ ) {
 		// Stringify data so it can be sent
 		options.data = JSON.stringify( options.data );
 
-		if ( post.upload ) {
+		if ( instance.upload ) {
 			options.xhr = function() {
 				var xhr = new window.XMLHttpRequest();
 
