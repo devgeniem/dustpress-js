@@ -164,7 +164,7 @@ window.DustPress = ( function( window, document, $ ) {
 		return $.ajax( options )
 		.done( instance.successHandler )
 		.fail( instance.errorHandler )
-		.complete( instance.complete );
+		.always( instance.complete );
 	};
 
 	return dp;
