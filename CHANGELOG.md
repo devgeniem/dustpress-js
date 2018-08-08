@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.3] - 2018-08-08
+
 ### Fixed
 - Changed the deprecated $.ajax.complete to $.ajax.always
 
