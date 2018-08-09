@@ -130,7 +130,7 @@ window.DustPress = ( function( window, document, $ ) {
 				window.DustPressDebugger.extend(debug, instance.path);
 			}
 	
-			if ( parsed.error === undefined ) {
+			if ( parsed && ! parsed.error ) {
 				instance.success(parsed.success, parsed.data, textStatus, jqXHR);
 			}
 			else {
