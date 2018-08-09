@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.4] - 2018-08-09
+
+### Fixed
+- Fixed an error that can happen if the server doesn't respond anything
+
 ## [3.0.3] - 2018-08-08
 
 ### Fixed
