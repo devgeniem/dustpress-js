@@ -1,5 +1,4 @@
 window.DustPress = ( function( window, document, $ ) {
-
 	var dp = {};
 	
 	dp.defaults = {
@@ -171,4 +170,4 @@ window.DustPress = ( function( window, document, $ ) {
 
 })( window, document, jQuery );
 
-var dp = window.DustPress.ajax;
+window.dp = window.DustPress.ajax;
