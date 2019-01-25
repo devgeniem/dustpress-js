@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Changed the format of dustpress.js to a class
+- Use fetch instead of jquery
 
 ## [3.0.4] - 2018-08-09
 

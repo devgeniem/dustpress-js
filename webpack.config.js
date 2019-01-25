@@ -1,11 +1,3 @@
-const webpack = require( 'webpack' );
-
-// Provide jQuery instance for all modules.
-const providePlugin = new webpack.ProvidePlugin({
-    jQuery: 'jquery',
-    '$': 'jquery'
-});
-
 /**
  * Webpack options
  * @type {Object}
@@ -36,12 +28,6 @@ module.exports = {
                 }
             }
         ]
-    },
-    plugins: [
-        providePlugin
-    ],
-    externals: {
-        'jquery': 'jQuery'
     },
     watchOptions: {
         poll: 100

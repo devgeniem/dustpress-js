@@ -16,18 +16,16 @@ A DustPress plugin that provides a handy JavaScript library for using your DustP
 
 You can call for `SomeModel`'s method `SomeMethod` with following code:
 
-```
-dp("SomeModel/SomeMethod", {
-	tidy: true,
-	args: {
-		'foo': 'bar'
-	}
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+```js
+dp( 'SomeModel/SomeMethod', {
+    tidy: true,
+    args: {
+        'foo': 'bar'
+    }
+}).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 
@@ -37,15 +35,13 @@ dp("SomeModel/SomeMethod", {
 
 If you want, you can even render HTML with Dust templates.
 
-```
+```js
 dp( 'SomeModel/SomeMethod', {
-	partial: 'SomePartial',
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+    partial: 'SomePartial',
+}).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 This code takes the data of `SomeMethod` and renders it with `SomePartial`. Variable `data` then contains the ready html.
@@ -54,26 +50,20 @@ If you still want to get the data output as well, use argument `data: true` and 
 
 You can also omit the method completely if you want to get the data of a complete model.
 
-```
-dp( 'SomeModel', {
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+```js
+dp( 'SomeModel/SomeMethod' ).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 
 If you want to call several functions but not all at once, you can do so by replacing the method's name on the call with a comma-separated list.
-```
-dp( 'SomeModel/SomeMethod,AnotherMethod', {
-	success: function( data ) {
-		// data.SomeMethod and data.AnotherMethod contain the return values
-	},
-	error: function( error ) {
-		// possible error
-	}
+```js
+dp( 'SomeModel/SomeMethod,AnotherMethod' ).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 
