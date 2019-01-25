@@ -201,7 +201,7 @@ export default class DustPress {
 }
 
 // Register legacy functionality
-if ( window.DustPress === 'undefined' ) {
+if ( typeof window.DustPress === 'undefined' ) {
     window.DustPress = new DustPress();
     window.dp = ( path, params ) => {
         return window.DustPress.ajax( path, params );
