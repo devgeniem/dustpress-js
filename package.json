@@ -9,7 +9,7 @@
         "webpack": "^4.29.0",
         "webpack-cli": "^3.2.1"
     },
-    "license": "MIT",
+    "license": "GPL-3.0",
     "name": "dustpress-js",
     "repository": {
         "type": "git",
