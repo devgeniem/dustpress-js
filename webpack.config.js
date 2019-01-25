@@ -26,12 +26,12 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                include: [
-                    __dirname + '/assets/scripts'
-                ],
-                options: {
-                    presets: [ '@babel/preset-env' ]
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: [ '@babel/preset-env' ]
+                    }
                 }
             }
         ]
