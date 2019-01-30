@@ -6,9 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.5] - 2019-01-30
+
 ### Added
 - webpack compiling for dustpress.js
 - js sourcemaps
+- .eslintrc.json
+
+### Changed
+- Changed the format of dustpress.js to a class
 
 ## [3.0.4] - 2018-08-09
 
