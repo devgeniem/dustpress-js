@@ -5,6 +5,14 @@ import Cookie from 'js-cookie';
 export default class DustPress {
 
     /**
+     * CSRF token
+     *
+     * @static
+     * @type {String}
+     */
+    static csrfToken = '';
+
+    /**
      * Default dpjs_token cookie params
      *
      * @type {Object}
@@ -40,6 +48,11 @@ export default class DustPress {
      * @return {String} Generated token.
      */
     generateToken() {
+        // Use the already generated token if we have one
+        if ( this.csrfToken ) {
+            return this.csrfToken;
+        }
+
         let token = '';
 
         if ( typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues === 'function' ) {
@@ -49,6 +62,9 @@ export default class DustPress {
         } else {
             token = Math.random() + '' + Math.random();
         }
+
+        this.csrfToken = token;
+        Cookie.set( 'dpjs_token', token, this.cookieParams );
 
         return token;
     }
@@ -62,9 +78,8 @@ export default class DustPress {
      */
     send( path, params = {}) {
 
-        // Set dpjs_token cookie
+        // Get the CSRF token
         const token = this.generateToken();
-        Cookie.set( 'dpjs_token', token, this.cookieParams );
 
         // Extract params from the combination of default and given params
         const {
