@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - webpack compiling for dustpress.js
 - js sourcemaps
+- .eslintrc.json
+
+### Changed
+- Changed the format of dustpress.js to a class
+- Use fetch instead of jquery
+- Use same CSRF token for all requests in the same session
 
 ## [3.0.4] - 2018-08-09
 
