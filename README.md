@@ -3,12 +3,12 @@
 
 A DustPress plugin that provides a handy JavaScript library for using your DustPress model methods on the front end.
 
-- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala)
+- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala), [godbone](https://github.com/godbone)
 - Plugin url: https://github.com/devgeniem/dustpress-debugger
 - Tags: dustpress, wordpress, plugins, dustjs, dust.js
-- Requires at least: 4.2.0
-- Requires DustPress version: 1.7.0
-- Tested up to: 4.9.3
+- Requires at least: 4.9.0
+- Requires DustPress version: 1.25.0
+- Tested up to: 5.2.0
 - License: GPL-3.0
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -74,8 +74,6 @@ Now data will consist of an object with the methods' names as keys and their ret
 #### bypassMainQuery
 
 By default DustPress.js requests bypass WordPress' main WP_Query so that it wouldn't slow the request down when it's not necessary. You can prevent that from happening by setting `bypassMainQuery: false` if you want to use the default query.
-
-*Note:* Since version _2.2.0_ DustPress.js calls have been made to the home url instead of current page and thus the default query will reflect that as well. You can point the query to the right page by giving `url: window.location` parameter to your request.
 
 ### Model function front-end visibility
 

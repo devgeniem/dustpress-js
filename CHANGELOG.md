@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [3.0.5] - 2019-01-30
+## [4.0.0] - 2019-10-25
 
 ### Added
 - webpack compiling for dustpress.js
