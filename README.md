@@ -58,13 +58,19 @@ dp( 'SomeModel/SomeMethod' ).then( ( data ) => {
 });
 ```
 
-If you want to call several functions but not all at once, you can do so by replacing the method's name on the call with a comma-separated list.
+It is also possible to use the `dp` call with the async-await pattern:
+
 ```js
-dp( 'SomeModel/SomeMethod,AnotherMethod' ).then( ( data ) => {
-    // do what you want with the data
-}).catch( ( error ) => {
-    // possible error
-});
+try {
+    var foobar = await dp( 'SomeModel/SomeMethod', {
+        tidy: true,
+        args: {
+            foo: 'bar'
+        }
+    });
+} catch( err ) {
+    console.error( err );
+}
 ```
 
 Now data will consist of an object with the methods' names as keys and their return values as the values. Obviously you can also render that to HTML as well.
