@@ -127,7 +127,7 @@ export default class DustPress {
                     window.DustPressDebugger.extend({
                         params: args,
                         data: data
-                    });
+                    }, path );
                 }
 
                 resolve( data );
