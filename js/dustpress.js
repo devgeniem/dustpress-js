@@ -123,6 +123,13 @@ export default class DustPress {
                 // Reject promise as well if the response was not 200
                 throw Error( response.statusText );
             }).then( ( data ) => {
+                if ( typeof window.DustPressDebugger !== 'undefined' ) {
+                    window.DustPressDebugger.extend({
+                        params: args,
+                        data: data
+                    });
+                }
+
                 resolve( data );
             }).catch( ( err ) => {
                 reject( err );
