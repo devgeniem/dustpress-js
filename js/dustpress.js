@@ -39,7 +39,8 @@ export default class DustPress {
         bypassMainQuery: false,
         partial: '',
         render: false,
-        tidy: false
+        tidy: false,
+        data: false,
     }
 
     /**
@@ -90,6 +91,7 @@ export default class DustPress {
             partial,         // What partial to render
             render,          // Whether we whould render a partial or not
             tidy,            // Should we tidy the ajax call output
+            data,            // If set to true, the response also contains the data used when rendering a template.
             credentials,     // Whether we should send cookie data with the call or not
             headers          // What headers to use for the call
         } = Object.assign({}, this.params, params );
@@ -107,6 +109,7 @@ export default class DustPress {
                         path,
                         render,
                         tidy,
+                        data,
                         token
                     }
                 }),
