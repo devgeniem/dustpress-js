@@ -32,6 +32,7 @@ class DustPressJs {
      *  @return  void
      */
     public function enqueue_scripts() {
+
         wp_enqueue_script( 'jquery' );
 
         $plugin_data = get_file_data( __FILE__, [ 'Version' => 'Version' ], 'plugin' );
@@ -40,7 +41,7 @@ class DustPressJs {
 
         $dependencies = apply_filters( 'dustpress/js/dependencies', [ 'jquery' ] );
 
-        wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, false );
+        wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, true );
 
         wp_localize_script( 'dustpress', 'dustpressjs_endpoint', apply_filters( 'dustpress/js/endpoint', home_url() ) );
 
