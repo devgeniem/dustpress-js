@@ -35,13 +35,13 @@ class DustPressJs {
 
         wp_enqueue_script( 'jquery' );
 
-        $plugin_data = get_file_data( __FILE__, [ 'Version' => 'Version' ], 'plugin' );
-
-        $version = $plugin_data['Version'];
-
+        // Variables.
+        $plugin_data  = get_file_data( __FILE__, [ 'Version' => 'Version' ], 'plugin' );
+        $version      = $plugin_data['Version'];
         $dependencies = apply_filters( 'dustpress/js/dependencies', [ 'jquery' ] );
+        $in_footer    = apply_filters( 'dustpress/js/in_footer', false );
 
-        wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, true );
+        wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, $in_footer );
 
         wp_localize_script( 'dustpress', 'dustpressjs_endpoint', apply_filters( 'dustpress/js/endpoint', home_url() ) );
 
