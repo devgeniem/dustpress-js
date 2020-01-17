@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [3.0.6] - 2020-01-16
+## [3.1.0] - 2020-01-17
 
 ### Added
 - Filter for dustpress-js wp_register_script() in footer value.
