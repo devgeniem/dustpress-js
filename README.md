@@ -3,12 +3,12 @@
 
 A DustPress plugin that provides a handy JavaScript library for using your DustPress model methods on the front end.
 
-- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala)
+- Contributors: [devgeniem](https://github.com/devgeniem) / [Nomafin](https://github.com/Nomafin), [villesiltala](https://github.com/villesiltala), [godbone](https://github.com/godbone)
 - Plugin url: https://github.com/devgeniem/dustpress-debugger
 - Tags: dustpress, wordpress, plugins, dustjs, dust.js
-- Requires at least: 4.2.0
-- Requires DustPress version: 1.7.0
-- Tested up to: 4.9.3
+- Requires at least: 4.9.0
+- Requires DustPress version: 1.25.0
+- Tested up to: 5.2.0
 - License: GPL-3.0
 - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,18 +16,16 @@ A DustPress plugin that provides a handy JavaScript library for using your DustP
 
 You can call for `SomeModel`'s method `SomeMethod` with following code:
 
-```
-dp("SomeModel/SomeMethod", {
-	tidy: true,
-	args: {
-		'foo': 'bar'
-	}
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+```js
+dp( 'SomeModel/SomeMethod', {
+    tidy: true,
+    args: {
+        'foo': 'bar'
+    }
+}).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 
@@ -37,15 +35,13 @@ dp("SomeModel/SomeMethod", {
 
 If you want, you can even render HTML with Dust templates.
 
-```
+```js
 dp( 'SomeModel/SomeMethod', {
-	partial: 'SomePartial',
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+    partial: 'SomePartial',
+}).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 This code takes the data of `SomeMethod` and renders it with `SomePartial`. Variable `data` then contains the ready html.
@@ -54,27 +50,27 @@ If you still want to get the data output as well, use argument `data: true` and 
 
 You can also omit the method completely if you want to get the data of a complete model.
 
-```
-dp( 'SomeModel', {
-	success: function( data ) {
-		// do what you want with the data
-	},
-	error: function( error ) {
-		// possible error
-	}
+```js
+dp( 'SomeModel/SomeMethod' ).then( ( data ) => {
+    // do what you want with the data
+}).catch( ( error ) => {
+    // possible error
 });
 ```
 
-If you want to call several functions but not all at once, you can do so by replacing the method's name on the call with a comma-separated list.
-```
-dp( 'SomeModel/SomeMethod,AnotherMethod', {
-	success: function( data ) {
-		// data.SomeMethod and data.AnotherMethod contain the return values
-	},
-	error: function( error ) {
-		// possible error
-	}
-});
+It is also possible to use the `dp` call with the async-await pattern:
+
+```js
+try {
+    var foobar = await dp( 'SomeModel/SomeMethod', {
+        tidy: true,
+        args: {
+            foo: 'bar'
+        }
+    });
+} catch( err ) {
+    console.error( err );
+}
 ```
 
 Now data will consist of an object with the methods' names as keys and their return values as the values. Obviously you can also render that to HTML as well.
@@ -84,8 +80,6 @@ Now data will consist of an object with the methods' names as keys and their ret
 #### bypassMainQuery
 
 By default DustPress.js requests bypass WordPress' main WP_Query so that it wouldn't slow the request down when it's not necessary. You can prevent that from happening by setting `bypassMainQuery: false` if you want to use the default query.
-
-*Note:* Since version _2.2.0_ DustPress.js calls have been made to the home url instead of current page and thus the default query will reflect that as well. You can point the query to the right page by giving `url: window.location` parameter to your request.
 
 ### Model function front-end visibility
 

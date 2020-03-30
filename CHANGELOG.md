@@ -4,18 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-## [3.1.0] - 2020-01-17
+## [4.3.0] - 2020-03-30
 
 ### Added
 - Filter for dustpress-js wp_register_script() in footer value.
+- Note this is also available in the release 3.1.0 for the older 3.x.x versions.
 
-## [3.0.5] - 2019-01-30
+## [4.1.1] - 2019-11-11
+
+### Fixed
+
+- Update plugin version texts.
+
+## [4.1.0] - 2019-11-11
+
+### Added
+
+- Add back the data property for fetching data along with the rendered HTML.
+
+### Changed
+
+- NPM update.
+
+## [4.0.1] - 2019-11-08
+
+### Added
+- DustPress Debugger integration
+
+## [4.0.0] - 2019-10-25
 
 ### Added
 - webpack compiling for dustpress.js
 - js sourcemaps
+- .eslintrc.json
+
+### Changed
+- Changed the format of dustpress.js to a class
+- Use fetch instead of jquery
+- Use same CSRF token for all requests in the same session
+
+## [3.0.5] - 2019-01-30
+
+### Added
+
+- Run DustPress debugger update in a new execution queue to prevent it halting resolving the AJAX request.
 
 ## [3.0.4] - 2018-08-09
 
