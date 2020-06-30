@@ -40,6 +40,7 @@ class DustPressJs {
         $in_footer    = apply_filters( 'dustpress/js/in_footer', false );
 
         wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress-min.js', $dependencies, $version, $in_footer );
+        // wp_register_script( 'dustpress', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'js/dustpress.js', $dependencies, $version, $in_footer );
 
         wp_localize_script( 'dustpress', 'dustpressjs_endpoint', apply_filters( 'dustpress/js/endpoint', home_url() ) );
 

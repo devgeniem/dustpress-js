@@ -28,7 +28,7 @@ export default class DustPress {
      * @type {Object}
      */
     params = {
-        url: window.location,
+        url: dustpressjs_endpoint,
         method: 'POST',
         args: {},
         credentials: 'include',
