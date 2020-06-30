@@ -1,6 +1,8 @@
 import 'whatwg-fetch'; // fetch polyfill
 import 'core-js/fn/promise'; // Promise polyfill
 import Cookie from 'js-cookie';
+import jqueryParam from 'jquery-param';
+
 
 export default class DustPress {
 
@@ -84,7 +86,6 @@ export default class DustPress {
 
         // Extract params from the combination of default and given params
         const {
-            url,             // Url to send ajax call to
             method,          // Ajax call method
             args,            // Dustpress ajax args
             bypassMainQuery, // Whether the main wp query should be disabled
@@ -95,27 +96,34 @@ export default class DustPress {
             credentials,     // Whether we should send cookie data with the call or not
             headers          // What headers to use for the call
         } = Object.assign({}, this.params, params );
-
+        const url = new URL( params.url || this.params.url );
 
         // Edge doesnt implement the "finally" function in its fetch but does in a Promise so we need to wrap this in a Promise
         return new Promise( ( resolve, reject ) => {
+            const dustpress_data = {
+                args,
+                bypassMainQuery,
+                partial,
+                path,
+                render,
+                tidy,
+                data,
+                token
+            };
             const fetchParams = {
                 method,
-                body: JSON.stringify({
-                    dustpress_data: {
-                        args,
-                        bypassMainQuery,
-                        partial,
-                        path,
-                        render,
-                        tidy,
-                        data,
-                        token
-                    }
-                }),
                 credentials,
                 headers
             };
+
+            // If doing a GET request add the params to the url
+            if ( method === 'GET' ) {
+                dustpress_data.dustpress_data = true;
+                url.search = jqueryParam( dustpress_data );
+            }
+            else {
+                fetchParams.body = JSON.stringify({ dustpress_data });
+            }
 
             // Send the request
             fetch( url, fetchParams ).then( ( response ) => {
