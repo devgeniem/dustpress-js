@@ -42,7 +42,7 @@ export default class DustPress {
         render: false,
         tidy: false,
         data: false,
-        retry: 3,
+        retries: 3,
         retryDelay: 0,
     }
 
