@@ -1,6 +1,7 @@
 import 'whatwg-fetch'; // fetch polyfill
 import 'core-js/fn/promise'; // Promise polyfill
 import Cookie from 'js-cookie';
+import fetchRetry from 'fetch-retry';
 
 export default class DustPress {
 
@@ -41,6 +42,8 @@ export default class DustPress {
         render: false,
         tidy: false,
         data: false,
+        retry: 3,
+        retryDelay: 0,
     }
 
     /**
@@ -93,7 +96,9 @@ export default class DustPress {
             tidy,            // Should we tidy the ajax call output
             data,            // If set to true, the response also contains the data used when rendering a template.
             credentials,     // Whether we should send cookie data with the call or not
-            headers          // What headers to use for the call
+            headers,         // What headers to use for the call
+            retries,         // How mny times to retry failed request on network error
+            retryDelay       // How much time to wait between retries
         } = Object.assign({}, this.params, params );
 
 
@@ -114,11 +119,13 @@ export default class DustPress {
                     }
                 }),
                 credentials,
-                headers
+                headers,
+                retries,
+                retryDelay
             };
 
             // Send the request
-            fetch( url, fetchParams ).then( ( response ) => {
+            fetchRetry( fetch )( url, fetchParams ).then( ( response ) => {
                 if ( response.ok ) {
                     return response.json();
                 }
