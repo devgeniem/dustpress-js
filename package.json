@@ -26,5 +26,5 @@
         "build": "webpack -p",
         "watch": "webpack -w"
     },
-    "version": "4.2.0"
+    "version": "4.4.0"
 }
