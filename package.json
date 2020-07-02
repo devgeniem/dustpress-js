@@ -10,6 +10,7 @@
         "babel-loader": "^8.0.6",
         "core-js": "^2.6.10",
         "fetch-retry": "^4.0.0",
+        "jquery-param": "^1.0.5",
         "js-cookie": "^2.2.1",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.10",
