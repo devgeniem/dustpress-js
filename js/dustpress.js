@@ -45,6 +45,7 @@ export default class DustPress {
         data: false,
         retries: 3,
         retryDelay: 0,
+        redirect: 'error',
     }
 
     /**
@@ -98,7 +99,8 @@ export default class DustPress {
             credentials,     // Whether we should send cookie data with the call or not
             headers,         // What headers to use for the call
             retries,         // How mny times to retry failed request on network error
-            retryDelay       // How much time to wait between retries
+            retryDelay,      // How much time to wait between retries
+            redirect         // What should fetch do on redirect
         } = Object.assign({}, this.params, params );
         const url = new URL( params.url || this.params.url );
 
@@ -119,13 +121,14 @@ export default class DustPress {
                 credentials,
                 headers,
                 retries,
-                retryDelay
+                retryDelay,
+                redirect
             };
 
             // If doing a GET request add the params to the url
             if ( method === 'GET' ) {
                 dustpress_data.dustpress_data = true;
-                url.search = jqueryParam( dustpress_data );
+                url.search = jqueryParam( dustpress_data ).split( '=&' ).join( '&' );
             }
             else {
                 fetchParams.body = JSON.stringify({ dustpress_data });
