@@ -138,7 +138,7 @@ export default class DustPress {
                 }
 
                 // Reject promise as well if the response was not 200
-                throw Error( response.statusText );
+                reject( response.statusText );
             }).then( ( data ) => {
                 resolve( data );
 
